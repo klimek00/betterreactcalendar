@@ -1,6 +1,8 @@
 #React Calendar
 
 Simply calendar which displays date and allows user to press on particular date. Uses React and sadly TailwindCSS.
+![sample](https://github.com/klimek00/betterreactcalendar/assets/36035343/bbccd53e-e227-4851-92c6-661e51ce2d79)
+
 
 It's parameters:
 data: Object of Arrays - days and hours to print. currently it's only available format is: JSON: {
