@@ -17,7 +17,7 @@ Simply calendar which displays date and allows user to press on particular date.
 }</pre>
 <br>
 
-<li>days: Int(default 7): number of next days to display, this is: <pre>"2.07, monday", "3.07, tuesday", ...</pre></li>
+<li>days: Int(default 7): number of next days to display
 <li>title: String(default 'Data Wizyty')- header of calendar</li>
 <li>style: styling for calendar, currently only parent div  </li>
 <li>options: to be added</li>
