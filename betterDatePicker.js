@@ -1,5 +1,4 @@
-import './App.css'
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useRef} from 'react'
 import CalendarHeader from './components/calendarHeader'
 import MoreArrow from './components/moreArrow'
 import CalendarHour from './components/calendarHour'
@@ -19,7 +18,7 @@ import CalendarHour from './components/calendarHour'
    * empty days styling
    * functions into functions file
    * everything is functions - should be classes
-   * virtualDate is lazy string - at least fix useState bug} param0 
+   * virtualDate is lazy string - at least fix useState bug}
  */
 
 //either occupiedData or data without data
@@ -27,6 +26,7 @@ import CalendarHour from './components/calendarHour'
 // timestamp to make gray text when data is busy
 function BetterDatePicker({data, days=7, title = 'Data Wizyty', style, options, userDateSelect}) {
   const [px, setPx] = useState(0)
+  const userDate = useRef(null)
 
   //cannot use state because of too many re-renders
   //virtual date changes to display correct day in calendar's columns
@@ -34,17 +34,19 @@ function BetterDatePicker({data, days=7, title = 'Data Wizyty', style, options, 
 
   //more - true -> move to left (display more days)
   //length - width of one column
-  const move = (more, length = 6.5) => {
+  const move = (e, more, length = 6.5) => {
+    e.preventDefault()
     setPx((prevPx) => prevPx + (more ? -length : length))
   }
     
+  // update view
   useEffect(() => {
     document.querySelector('.calendarBodyCols').style.transform = `translateX(${px}rem)`
     }, [px])
   
-  //parse into array of objects
-  // data = Object.keys(data)
-
+    /**
+      * how to move those functions into other file??
+    */
   const generateNextDate = (i) => {
     const newDate = new Date()
     newDate.setDate(newDate.getDate() + i)
@@ -67,6 +69,17 @@ function BetterDatePicker({data, days=7, title = 'Data Wizyty', style, options, 
     )
   }
 
+  const fn = (e, {date, hour}) => {
+    // /remove style of selected item if current exists
+    userDate?.current?.classList?.remove('bg-blue-600', 'text-white')
+    
+    userDate.current = e.target
+    // // we have to use e.target because of react's 'lag'
+    userDate.current.classList.add('bg-blue-600', 'text-white')
+    userDateSelect({date, hour})
+  }
+  
+
   try {
     return (
     <div className="calendar w-80 border shadow shadow-slate-200 bg-zinc-50 p-2 z-20 rounded-lg" style={style}>
@@ -86,7 +99,7 @@ function BetterDatePicker({data, days=7, title = 'Data Wizyty', style, options, 
                   {prepareDay(i)}
                 </div>
                 <div className='calendarColBody'>
-                  <CalendarHour data={data} date={virtualDate} fn={userDateSelect}/>
+                  <CalendarHour data={data} date={virtualDate} fn={fn}/>
                 </div>
               </div>
             )) }
