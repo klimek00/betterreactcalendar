@@ -69,14 +69,14 @@ function BetterDatePicker({data, days=7, title = 'Data Wizyty', style, options, 
     )
   }
 
-  const fn = (e, {date, hour}) => {
+  const fn = (e, {day, hour}) => {
     // /remove style of selected item if current exists
     userDate?.current?.classList?.remove('bg-blue-600', 'text-white')
     
     userDate.current = e.target
     // // we have to use e.target because of react's 'lag'
     userDate.current.classList.add('bg-blue-600', 'text-white')
-    userDateSelect({date, hour})
+    userDateSelect({day, hour})
   }
   
 
